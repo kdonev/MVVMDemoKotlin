@@ -6,17 +6,16 @@ import androidx.room.Room
 import org.kdonev.currencyconverter.modelDB.AppDatabase
 import org.kdonev.currencyconverter.modelDB.Currency
 
-class Currencies(val context: Context, val ratesLoader: IRatesLoader)
-{
+class Currencies(val context: Context, val ratesLoader: IRatesLoader) : ICurrencies {
     private val appDatabase = Room.databaseBuilder(
         context.applicationContext,
         AppDatabase::class.java,
         "currenices_db"
     ).allowMainThreadQueries().build()
 
-    fun all() = appDatabase.currenciesDao().getAll()
+    override fun all() = appDatabase.currenciesDao().getAll()
 
-    fun syncRates(onFinish : () -> Unit)
+    override fun syncRates(onFinish : () -> Unit)
     {
         ratesLoader.loadRates(
             {

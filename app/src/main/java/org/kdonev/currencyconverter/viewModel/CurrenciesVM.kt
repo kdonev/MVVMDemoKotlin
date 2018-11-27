@@ -8,12 +8,12 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import org.kdonev.currencyconverter.model.Currencies
+import org.kdonev.currencyconverter.model.ICurrencies
 import org.kdonev.currencyconverter.model.IRatesLoader
 import org.kdonev.currencyconverter.modelDB.Currency
 
-class CurrenciesVM(val context : Context, val lifecycleOwner: LifecycleOwner, val ratesLoader: IRatesLoader) : BaseObservable() {
+class CurrenciesVM(val model: ICurrencies, val lifecycleOwner: LifecycleOwner?) : BaseObservable() {
 
-    private val model = Currencies(context, ratesLoader)
     private val currencies = model.all()
     private var _eurAmount : Double = 1.0
 
@@ -22,7 +22,10 @@ class CurrenciesVM(val context : Context, val lifecycleOwner: LifecycleOwner, va
     }
 
     init{
-        currencies.observe(lifecycleOwner, currenciesObserver)
+        if(lifecycleOwner != null)
+            currencies.observe(lifecycleOwner, currenciesObserver)
+        else
+            currencies.observeForever(currenciesObserver)
     }
 
     private fun amountsChanged(fromFieldId : Int)
