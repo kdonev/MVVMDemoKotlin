@@ -10,7 +10,6 @@ import org.junit.Rule
 import org.kdonev.currencyconverter.model.ICurrencies
 import org.kdonev.currencyconverter.modelDB.Currency
 import org.kdonev.currencyconverter.viewModel.CurrenciesVM
-import org.mockito.Mockito.mock
 
 class TestModel : ICurrencies
 {
